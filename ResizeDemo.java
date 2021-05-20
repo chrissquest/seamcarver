@@ -10,9 +10,9 @@
  *
  ******************************************************************************/
 
-import Libraries.Picture;
-import Libraries.StdOut;
-import Libraries.Stopwatch;
+import lib.Picture;
+import lib.StdOut;
+import lib.Stopwatch;
 
 public class ResizeDemo {
     public static void main(String[] args) {

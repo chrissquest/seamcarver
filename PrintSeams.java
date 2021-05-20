@@ -31,8 +31,8 @@
  *
  ******************************************************************************/
 
-import Libraries.Picture;
-import Libraries.StdOut;
+import lib.Picture;
+import lib.StdOut;
 
 public class PrintSeams {
     private static final boolean HORIZONTAL   = true;

@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-import Libraries.Picture;
-import Libraries.StdOut;
+import lib.Picture;
+import lib.StdOut;
 
 public class ShowEnergy {
 

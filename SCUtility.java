@@ -9,8 +9,8 @@
 
 import java.awt.Color;
 
-import Libraries.Picture;
-import Libraries.StdRandom;
+import lib.Picture;
+import lib.StdRandom;
 
 public class SCUtility {
 

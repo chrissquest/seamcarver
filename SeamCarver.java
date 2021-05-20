@@ -1,5 +1,5 @@
 
-import Libraries.Picture;
+import lib.Picture;
 
 public class SeamCarver {
 

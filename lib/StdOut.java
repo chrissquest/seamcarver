@@ -1,4 +1,4 @@
-package Libraries;
+package lib;
 
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;

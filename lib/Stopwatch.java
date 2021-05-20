@@ -1,4 +1,4 @@
-package Libraries;
+package lib;
 
 public class Stopwatch { 
 

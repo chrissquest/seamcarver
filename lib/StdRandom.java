@@ -1,4 +1,4 @@
-package Libraries;
+package lib;
 
 import java.util.Random;
 

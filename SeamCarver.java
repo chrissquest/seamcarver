@@ -3,6 +3,7 @@ import lib.Picture;
 
 public class SeamCarver {
 
+	Picture picture;
    // create a seam carver object based on the given picture
    public SeamCarver(Picture picture)
    {
@@ -12,19 +13,19 @@ public class SeamCarver {
    // current picture
    public Picture picture()
    {
-	   
+	   return picture;
    }
 
    // width of current picture
    public int width()
    {
-	   
+	   return picture.width();
    }
 
    // height of current picture
    public int height()
    {
-	   
+	   return picture.height();
    }
 
    // energy of pixel at column x and row y

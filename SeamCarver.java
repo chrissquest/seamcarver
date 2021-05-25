@@ -1,7 +1,7 @@
 
-import java.awt.Color;
-
 import lib.Picture;
+
+import java.awt.Color;
 
 public class SeamCarver {
 
@@ -12,6 +12,7 @@ public class SeamCarver {
    public SeamCarver(Picture picture)
    {
 	   this.picture = picture;
+	   energy = new double[width()][height()];
    }
 
    // current picture
@@ -56,28 +57,76 @@ public class SeamCarver {
 	   //(Delta)x2(x, y) + (Delta)y2(x, y)
 	   double xDelta = energyHelper(picture.get(x - 1, y), picture.get(x + 1, y));
 	   double yDelta = energyHelper(picture.get(x, y - 1), picture.get(x, y + 1));
-	   
-	   return Math.sqrt(yDelta + yDelta);
-	   
+
+	   return Math.sqrt(xDelta + yDelta);
    }
    private double energyHelper(Color a, Color b)
    {
-	   int red = a.getRed() - b.getRed();
-	   int green = a.getGreen() - b.getGreen();
-	   int blue = a.getBlue() - b.getBlue();
+	   double red = a.getRed() - b.getRed();
+       double green = a.getGreen() - b.getGreen();
+       double blue = a.getBlue() - b.getBlue();
 	   return (red*red) + (green*green) + (blue*blue);
    }
 
    // sequence of indices for horizontal seam
    public int[] findHorizontalSeam()
    {
-	   
+	   return null;
    }
 
    // sequence of indices for vertical seam
    public int[] findVerticalSeam()
    {
-	   
+
+       /*
+                  double smallestEnergy = energy[x - 1][1];
+           int smallestX = x - 1;
+
+           if(energy[x][1] < smallestEnergy) {
+               smallestEnergy = energy[x][1];
+               smallestX = x;
+           }
+           if(energy[x + 1][1] < smallestEnergy) {
+               smallestEnergy = energy[x+1][1];
+               smallestX = x + 1;
+           }
+        */
+
+       int[] seam = new int[width()];
+
+       int LEpixel = 0;
+        // find lowest energy pixel
+       for (int x = 1; x < width() - 1; x++) {
+            if(energy[x][1] < energy[LEpixel][1]) LEpixel = x;
+           seam[1] = LEpixel;
+       }
+
+
+       // now go down from that pixel to find the lowest energy path
+       for (int y = 1; y < height(); y++) {
+
+           // Middle pixel base
+           double lowestEnergy = energy[LEpixel][y];
+
+            // Compare left pixel
+           if(energy[LEpixel - 1][y] < lowestEnergy){
+               lowestEnergy = energy[LEpixel - 1][y];
+               LEpixel = LEpixel - 1;
+           }
+           if(energy[LEpixel + 1][y] < lowestEnergy){
+               lowestEnergy = energy[LEpixel + 1][y];
+               LEpixel = LEpixel + 1;
+           }
+
+
+
+
+           seam[y] = LEpixel;
+
+       }
+
+
+       return null;
    }
 
    // remove horizontal seam from current picture

@@ -43,8 +43,8 @@ public class SeamCarver {
 	   //|(0,3)|(1,3)|(2,3)|//
 	   ///////////////////////
 	   
-	   var pictureWidth = width();
-	   var pictureHeight = height();
+	   int pictureWidth = width();
+	   int pictureHeight = height();
 	   
 	   //Energy for border pixels should be maxed
 	   if(x == 0 || x == pictureWidth - 1 || y == 0 || y == pictureHeight - 1)
@@ -53,7 +53,7 @@ public class SeamCarver {
 	   }
 	   
 	   //Energy for non border pixel
-	   
+	   //(Delta)x2(x, y) + (Delta)y2(x, y)
 	   double xDelta = energyHelper(picture.get(x - 1, y), picture.get(x + 1, y));
 	   double yDelta = energyHelper(picture.get(x, y - 1), picture.get(x, y + 1));
 	   

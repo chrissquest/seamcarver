@@ -86,36 +86,44 @@ public class SeamCarver {
    {
 
        int[] seam = new int[width()];
+       int[] LEseam = new int[width()];
+       double LEtotal = Double.MAX_VALUE;
 
        int LEpixel = 0;
-        // find lowest energy pixel
+       // find lowest energy pixel
        for (int x = 1; x < width() - 1; x++) {
-            if(energy[x][1] < energy[LEpixel][1]) LEpixel = x;
-           seam[1] = LEpixel;
+            LEpixel = x;
+            seam[0] = LEpixel - 1;
+            double totalEnergy = 1000;
+
+           // Calculate seam from LEpixel
+           for (int y = 1; y < height(); y++) {
+               // Middle pixel base
+               double lowestEnergy = energy[LEpixel][y];
+
+               // Compare left pixel
+               if(energy[LEpixel - 1][y] < lowestEnergy){
+                   lowestEnergy = energy[LEpixel - 1][y];
+                   LEpixel = LEpixel - 1;
+               }
+               if(energy[LEpixel + 1][y] < lowestEnergy){
+                   lowestEnergy = energy[LEpixel + 1][y];
+                   LEpixel = LEpixel + 1;
+               }
+
+               seam[y] = LEpixel;
+               totalEnergy += lowestEnergy;
+           }
+
+           // if it's a lower energy seam, use it
+           if(totalEnergy < LEtotal) {
+               LEtotal = totalEnergy;
+               LEseam = seam;
+           }
+
        }
 
-
-       // now go down from that pixel to find the lowest energy path
-       for (int y = 1; y < height(); y++) {
-
-           // Middle pixel base
-           double lowestEnergy = energy[LEpixel][y];
-
-            // Compare left pixel
-           if(energy[LEpixel - 1][y] < lowestEnergy){
-               lowestEnergy = energy[LEpixel - 1][y];
-               LEpixel = LEpixel - 1;
-           }
-           if(energy[LEpixel + 1][y] < lowestEnergy){
-               lowestEnergy = energy[LEpixel + 1][y];
-               LEpixel = LEpixel + 1;
-           }
-
-           seam[y] = LEpixel;
-
-       }
-
-       return seam;
+       return LEseam;
    }
 
    // remove horizontal seam from current picture

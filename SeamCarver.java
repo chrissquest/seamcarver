@@ -2,16 +2,21 @@
 import java.awt.Color;
 
 import lib.Picture;
+import lib.StdOut;
 
 public class SeamCarver {
 
 	Picture picture;
-	private double[][] energy;
+	public double[][] energy;
 	private double maxEnergy = 1000;
    // create a seam carver object based on the given picture
    public SeamCarver(Picture picture)
    {
 	   this.picture = picture;
+	   this.energy = new double [width()][height()];
+	   for (int row = 0; row < height(); row++)
+           for (int col = 0; col < width(); col++)
+        	   energy[row][col] = energy(row,col);
    }
 
    // current picture
@@ -43,8 +48,8 @@ public class SeamCarver {
 	   //|(0,3)|(1,3)|(2,3)|//
 	   ///////////////////////
 	   
-	   int pictureWidth = width();
-	   int pictureHeight = height();
+	   double pictureWidth = width();
+	   double pictureHeight = height();
 	   
 	   //Energy for border pixels should be maxed
 	   if(x == 0 || x == pictureWidth - 1 || y == 0 || y == pictureHeight - 1)
@@ -53,31 +58,54 @@ public class SeamCarver {
 	   }
 	   
 	   //Energy for non border pixel
-	   //(Delta)x2(x, y) + (Delta)y2(x, y)
+	   // How to get x and y delta (Delta)x2(x, y) = Redx(x, y)2 + Greenx(x, y)2 + Bluex(x, y)2
 	   double xDelta = energyHelper(picture.get(x - 1, y), picture.get(x + 1, y));
 	   double yDelta = energyHelper(picture.get(x, y - 1), picture.get(x, y + 1));
 	   
-	   return Math.sqrt(yDelta + yDelta);
+	   //(Delta)x2(x, y) + (Delta)y2(x, y)
+	   return Math.sqrt(xDelta + yDelta);
 	   
    }
    private double energyHelper(Color a, Color b)
    {
-	   int red = a.getRed() - b.getRed();
-	   int green = a.getGreen() - b.getGreen();
-	   int blue = a.getBlue() - b.getBlue();
+	   double red = a.getRed() - b.getRed();
+	   double green = a.getGreen() - b.getGreen();
+	   double blue = a.getBlue() - b.getBlue();
 	   return (red*red) + (green*green) + (blue*blue);
    }
 
    // sequence of indices for horizontal seam
    public int[] findHorizontalSeam()
    {
+	   int[] seam = new int[height()];
 	   
+	   
+	   
+	   return seam;
    }
 
    // sequence of indices for vertical seam
    public int[] findVerticalSeam()
    {
+	   //	a 3 by 4 image	//
+	   ///////////////////////
+	   //|(0,0)|(1,0)|(2,0)|//
+	   //|(0,1)|(1,1)|(2,1)|//
+	   //|(0,2)|(1,2)|(2,2)|//
+	   //|(0,3)|(1,3)|(2,3)|//
+	   ///////////////////////
 	   
+	   int[] seam = new int[width()];
+	   int x = 0;
+	   //Go through every column
+	   for(int col = 0; col < width(); col++)
+	   {
+		   for (int row = 0; row < height();row++)
+		   {
+			   
+		   }
+	   }
+	   return seam;
    }
 
    // remove horizontal seam from current picture

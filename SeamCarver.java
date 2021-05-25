@@ -13,8 +13,8 @@ public class SeamCarver {
    {
 	   this.picture = picture;
 	   this.energy = new double [width()][height()];
-	   for (int row = 0; row < height(); row++)
-           for (int col = 0; col < width(); col++)
+	   for (int row = 0; row < width(); row++)
+           for (int col = 0; col < height(); col++)
         	   energy[row][col] = energy(row,col);
    }
 
@@ -46,7 +46,7 @@ public class SeamCarver {
 	   //|(0,2)|(1,2)|(2,2)|//
 	   //|(0,3)|(1,3)|(2,3)|//
 	   ///////////////////////
-	   
+       
 	   int pictureWidth = width();
 	   int pictureHeight = height();
 	   
@@ -57,7 +57,7 @@ public class SeamCarver {
 	   }
 	   
 	   //Energy for non border pixel
-	   // How to get x and y delta (Delta)x2(x, y) = Redx(x, y)2 + Greenx(x, y)2 + Bluex(x, y)2
+	   // How to get x delta (Delta)x2(x, y) = Redx(x, y)2 + Greenx(x, y)2 + Bluex(x, y)2
 	   double xDelta = energyHelper(picture.get(x - 1, y), picture.get(x + 1, y));
 	   double yDelta = energyHelper(picture.get(x, y - 1), picture.get(x, y + 1));
 	   

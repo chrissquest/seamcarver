@@ -1,8 +1,7 @@
 
-import java.awt.Color;
-
 import lib.Picture;
-import lib.StdOut;
+
+import java.awt.Color;
 
 public class SeamCarver {
 
@@ -86,20 +85,6 @@ public class SeamCarver {
    public int[] findVerticalSeam()
    {
 
-       /*
-                  double smallestEnergy = energy[x - 1][1];
-           int smallestX = x - 1;
-
-           if(energy[x][1] < smallestEnergy) {
-               smallestEnergy = energy[x][1];
-               smallestX = x;
-           }
-           if(energy[x + 1][1] < smallestEnergy) {
-               smallestEnergy = energy[x+1][1];
-               smallestX = x + 1;
-           }
-        */
-
        int[] seam = new int[width()];
 
        int LEpixel = 0;
@@ -126,15 +111,11 @@ public class SeamCarver {
                LEpixel = LEpixel + 1;
            }
 
-
-
-
            seam[y] = LEpixel;
 
        }
 
-
-       return null;
+       return seam;
    }
 
    // remove horizontal seam from current picture

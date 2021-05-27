@@ -20,9 +20,9 @@ public class SeamCarver {
 	   visited = new int[width()][height()];
 	   energy = new double [width()][height()];
 	   
-	   for (int row = 0; row < width(); row++)
-           for (int col = 0; col < height(); col++)
-        	   energy[row][col] = energy(row,col);
+	   for (int row = 0; row < height(); row++)
+           for (int col = 0; col < width(); col++)
+        	   energy[col][row] = energy(col,row);
    }
 
    // current picture
@@ -105,12 +105,13 @@ public class SeamCarver {
                best = index; //store what index min value was found at
            }
        }
-//       System.out.println(min);
        
        seam[width() - 1] = best;
+       int starting = width()-2;
+       int rollovercount = 0;
        for (int i = width() - 2; i >= 0; i--) { // Back track and fill seam array with the path with least energy
-           seam[i] = visited[i+1][best];
-           best = visited[i+1][i+1];			//Set best to now be the point we were just at
+    	   seam[i] = visited[i+1][best];
+           best = visited[i+1][best];			//Set best to now be the point we were just at
        }
        return seam;
    }
@@ -145,8 +146,8 @@ public class SeamCarver {
 //      System.out.println(best);
 
        seam[height() - 1] = best;
-       for (int i = height() - 2; i >= 0; i--) { // Back track and fill seam array with the path with least energy
-           seam[i] = visited[best][i + 1];
+       for (int i = height() - 2; i >= 0; i--) { // Back track and fill seam array with the path with least energy   
+    	   seam[i] = visited[best][i + 1];
            best = visited[best][i + 1]; //Set best to now be the point we were just at
        }
        
@@ -243,9 +244,9 @@ public class SeamCarver {
            double min = Math.min(a, b);
            distTo[row] = min + energy[col][row];
            if (a < min) {
-        	   visited[col][row] = col;
+        	   visited[col][row] = row;
            } else {
-        	   visited[col][row] = col - 1;
+        	   visited[col][row] = row - 1;
            }
            return;
        }
@@ -273,7 +274,7 @@ public class SeamCarver {
 	   Picture carvedPic = new Picture(width(),height()-1);  
 		for (int col = 0; col < width(); col++) {
 			int i = 0;
-			for (int row = 0; row < height() - 1; row++) {
+			for (int row = 0; row < height(); row++) {
 				if (row != seam[col]) {
 					carvedPic.set(col, i, picture.get(col, row));
 					i++;

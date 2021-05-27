@@ -110,7 +110,7 @@ public class SeamCarver {
        seam[width() - 1] = best;
        for (int i = width() - 2; i >= 0; i--) { // Back track and fill seam array with the path with least energy
            seam[i] = visited[i+1][best];
-           best = visited[i+1][best];			//Set best to now be the point we were just at
+           best = visited[i+1][i+1];			//Set best to now be the point we were just at
        }
        return seam;
    }
@@ -142,7 +142,7 @@ public class SeamCarver {
                best = index; //store what index min value was found at
            }
        }
-      System.out.println(best);
+//      System.out.println(best);
 
        seam[height() - 1] = best;
        for (int i = height() - 2; i >= 0; i--) { // Back track and fill seam array with the path with least energy
@@ -270,12 +270,34 @@ public class SeamCarver {
    // remove horizontal seam from current picture
    public void removeHorizontalSeam(int[] seam)
    {
-	   
+	   Picture carvedPic = new Picture(width(),height()-1);  
+		for (int col = 0; col < width(); col++) {
+			int i = 0;
+			for (int row = 0; row < height() - 1; row++) {
+				if (row != seam[col]) {
+					carvedPic.set(col, i, picture.get(col, row));
+					i++;
+				}
+			}
+		}
+		
+	   this.picture = carvedPic;
    }
 
    // remove vertical seam from current picture
    public void removeVerticalSeam(int[] seam)
    {
+	   Picture carvedPic = new Picture(width()-1,height());
+		for (int row = 0; row < height(); row++) {
+			int i = 0;
+			for (int col = 0; col < width(); col++) {
+				if (col != seam[row]) {
+					carvedPic.set(i, row, picture.get(col, row));
+					i++;
+				}
+			}
+		}
+	   this.picture = carvedPic;
 	   
    }
 

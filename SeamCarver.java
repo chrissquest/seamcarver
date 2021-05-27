@@ -91,7 +91,7 @@ public class SeamCarver {
        //Visit every pixel in the image row by row
        for (int row = 0; row < width(); row++) {
            for (int col = 0; col < height(); col++) {
-        	   dykstraHor(row, col, distTo, oldDistTo);
+        	   dijkstraHor(row, col, distTo, oldDistTo);
            }
            System.arraycopy(distTo, 0, oldDistTo, 0, height()); //after each row, store the distTo values to oldDistTo so we can update total distance -
        }													//when going through the next row.
@@ -126,7 +126,7 @@ public class SeamCarver {
        //Visit every pixel in the image row by row
        for (int col = 0; col < height(); col++) {
            for (int row = 0; row < width(); row++) {
-        	   dykstraVert(row, col, distTo, oldDistTo);
+        	   dijkstraVert(row, col, distTo, oldDistTo);
            }
            System.arraycopy(distTo, 0, oldDistTo, 0, width()); //after each row, store the distTo values to oldDistTo so we can update total distance -
        }													   //when going through the next row.
@@ -154,7 +154,7 @@ public class SeamCarver {
        return seam;
    }
 
-   private void dykstraVert(int col, int row, double[] distTo, double[] oldDistTo) 
+   private void dijkstraVert(int col, int row, double[] distTo, double[] oldDistTo) 
    {
 	   //Dealing with top row of pixels
 	   if (row == 0) {
@@ -211,7 +211,7 @@ public class SeamCarver {
        }
    }
    
-   private void dykstraHor(int col, int row, double[] distTo, double[] oldDistTo) 
+   private void dijkstraHor(int col, int row, double[] distTo, double[] oldDistTo) 
    {
 	   
 	   //Dealing with left column of pixels

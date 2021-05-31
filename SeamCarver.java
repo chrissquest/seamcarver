@@ -107,12 +107,11 @@ public class SeamCarver {
        }
        
        seam[width() - 1] = best;
-       int starting = width()-2;
-       int rollovercount = 0;
        for (int i = width() - 2; i >= 0; i--) { // Back track and fill seam array with the path with least energy
     	   seam[i] = visited[i+1][best];
            best = visited[i+1][best];			//Set best to now be the point we were just at
        }
+       
        return seam;
    }
 
@@ -143,8 +142,6 @@ public class SeamCarver {
                best = index; //store what index min value was found at
            }
        }
-//      System.out.println(best);
-
        seam[height() - 1] = best;
        for (int i = height() - 2; i >= 0; i--) { // Back track and fill seam array with the path with least energy   
     	   seam[i] = visited[best][i + 1];
@@ -157,45 +154,55 @@ public class SeamCarver {
 
    private void dijkstraVert(int col, int row, double[] distTo, double[] oldDistTo) 
    {
-	   //Dealing with top row of pixels
-	   if (row == 0) {
+	   //Here we are visiting every possible origin point and marking it as -1
+	   //We are also marking the cost to reach this pixel in the distTo array
+	   if (row == 0)
+	   {
            distTo[col] = maxEnergy;
            visited[col][row] = -1;
-           return;
+           return;								
        }
-	   
-	   //Dealing with left column of pixels
-       if (col == 0) {
+	   //Here we are dealing with the left most side of image								Visual Example for 3x3 img
+	   //Because of this we only have two possible pixels to create a seam with	 |*pixel we mark distance to   *(0,0)*(1,0)(2,0)
+	   //We get the total distance of the pixels in our current column and the - |pixel we are at		 --->	(0,1)(1,1)(2,1)
+	   //column to the right																				 	(0,2)(1,2)(2,2)
+       if (col == 0) 
+       {
            double a = oldDistTo[col];
            double b = oldDistTo[col + 1];
            double min = Math.min(a, b);
            distTo[col] = min + energy[col][row];
-           if (a < min) {
+           if (a < min) 
+           {
         	   visited[col][row] = col;
-           } else {
+           } 
+           else 
+           {
         	   visited[col][row] = col + 1;
            }
            return;
        }
-       
-       //Dealing with right column of pixels
-       if (col == width() - 1) {
-           // we have only 2 edges
+	   //Here we are dealing with the right most side of image								Visual Example for 3x3 img
+	   //Because of this we only have two possible pixels to create a seam with	 |*pixel we mark distance to    (0,0)*(1,0)*(2,0)
+	   //We get the total distance of the pixels in our current column and the - |								(0,1)(1,1)(2,1) <--- pixel we are at
+	   //column to the right																				 	(0,2)(1,2)(2,2)
+       if (col == width() - 1) 
+       {
            double a = oldDistTo[col];
            double b = oldDistTo[col - 1];
            double min = Math.min(a, b);
            distTo[col] = min + energy[col][row];
-           if (a < min) {
+           if (a < min)					//Marked when the minimum path is visited
+           {
         	   visited[col][row] = col;
-           } else {
+           } 
+           else 
+           {
         	   visited[col][row] = col - 1;
            }
            return;
        }
 
-       //Dealing with the middle value of pixels
-       
-       // for 3 edges
        double left = oldDistTo[col - 1];
        double mid = oldDistTo[col];
        double right = oldDistTo[col + 1];
@@ -203,11 +210,16 @@ public class SeamCarver {
        double min = Math.min(Math.min(left, mid), right);
 
        distTo[col] = min + energy[col][row];
-       if (min == left) {
+       if (min == left) 
+       {
     	   visited[col][row] = col - 1;
-       } else if (min == mid) {
+       } 
+       else if (min == mid) 
+       {
     	   visited[col][row] = col;
-       } else {
+       } 
+       else 
+       {
     	   visited[col][row] = col + 1;
        }
    }
@@ -216,36 +228,45 @@ public class SeamCarver {
    {
 	   
 	   //Dealing with left column of pixels
-       if (col == 0) {
+       if (col == 0) 
+       {
            distTo[row] = maxEnergy;
            visited[col][row] = -1;
            return;
        }
        
 	   //Dealing with top row of pixels
-	   if (row == 0) {
+	   if (row == 0) 
+	   {
            double a = oldDistTo[row];
            double b = oldDistTo[row + 1];
            double min = Math.min(a, b);
            distTo[row] = min + energy[col][row];
-           if (a < min) {
+           if (a < min) 
+           {
         	   visited[col][row] = row;
-           } else {
+           } 
+           else 
+           {
         	   visited[col][row] = row + 1;
            }
            return;
        }
        
        //Dealing with right column of pixels
-       if (row == height() - 1) {
+       if (row == height() - 1) 
+       {
            // we have only 2 edges
            double a = oldDistTo[row];
            double b = oldDistTo[row - 1];
            double min = Math.min(a, b);
            distTo[row] = min + energy[col][row];
-           if (a < min) {
+           if (a < min) 
+           {
         	   visited[col][row] = row;
-           } else {
+           } 
+           else 
+           {
         	   visited[col][row] = row - 1;
            }
            return;
@@ -260,14 +281,20 @@ public class SeamCarver {
        double min = Math.min(Math.min(left, mid), right);
 
        distTo[row] = min + energy[col][row];
-       if (min == left) {
+       if (min == left) 
+       {
     	   visited[col][row] = row - 1;
-       } else if (min == mid) {
+       } 
+       else if (min == mid) 
+       {
     	   visited[col][row] = row;
-       } else {
+       } 
+       else 
+       {
     	   visited[col][row] = row + 1;
        }
    }
+   
    // remove horizontal seam from current picture
    public void removeHorizontalSeam(int[] seam)
    {
@@ -283,6 +310,7 @@ public class SeamCarver {
 		}
 		
 	   this.picture = carvedPic;
+	   reCalculate();
    }
 
    // remove vertical seam from current picture
@@ -299,13 +327,19 @@ public class SeamCarver {
 			}
 		}
 	   this.picture = carvedPic;
-	   
+	   reCalculate();
+   }
+   
+   private void reCalculate()
+   {
+	   for (int row = 0; row < height(); row++)
+           for (int col = 0; col < width(); col++)
+        	   energy[col][row] = energy(col,row);
    }
 
    //  unit testing (optional)
    public static void main(String[] args)
    {
-	   
    }
 
 }

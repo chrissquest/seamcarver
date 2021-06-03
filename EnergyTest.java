@@ -3,13 +3,18 @@ import lib.StdOut;
 
 public class EnergyTest {
 	
-	public static double[][] test1() {
-		Picture x = new Picture("3x4.png");
-		double[][]corrEn = new double[x.height()][x.width()];
-		for(int row = 0; row < x.height(); row++) {
-			for(int col = 0; col < x.width(); col++) {
+	private static double[][]corrEn;
+	private static Picture picture = new Picture("3x4.png");
+	private static SeamCarver testObj = new SeamCarver(picture);
+	
+	public static boolean threeByFourEnergytest() {
+		corrEn = new double[picture.height()][picture.width()];
+		double[][]corrEn = new double[picture.height()][picture.width()];
+		
+		for(int row = 0; row < picture.height(); row++) {
+			for(int col = 0; col < picture.width(); col++) {
 				if(row ==  1 && col == 1) {
-					corrEn[row][col] = 228.53;
+					corrEn[row][col] = 228.527898;
 				}
 				else if (row ==  2 && col == 1) {
 					corrEn[row][col] = 228.09;
@@ -19,42 +24,63 @@ public class EnergyTest {
 				}
 			}
 		}
-		return corrEn;
-	}
-
-	public static void main(String[] args) {
-		Picture picture = new Picture("3x4.png");
-		StdOut.printf("Testing %dx%d Image\n", picture.width(), picture.height());
-
-		SeamCarver sc1 = new SeamCarver(picture);
-
-		StdOut.printf("Comparing values [a] / [b] where a is the computed value and b is the correct answer.\nComparing energy matrix\n");
-		
-		double[][]testMatrix = test1();
-		
-		for(int col =0; col < sc1.height();col++) {
-			for(int row = 0;row<sc1.width();row++) {
+		for(int row = 0;  row < picture.height(); row++ ) {
+			for(int col = 0; col < picture.width(); col++) {
 				
-				StdOut.print(sc1.energy[row][col]+" / "+testMatrix[col][row]+"\n");
+				if ((int)testObj.energy[col][row] != (int)corrEn[row][col]) {
+					System.out.printf("The energy value at %d and %d is incorrect. \n%f does not eqaul %f",row,col,testObj.energy[row][col],corrEn[row][col]);
+					return false;
+				}
 			}
-			StdOut.println("\n");
 		}
+		System.out.printf("The energy values are correct.\n");
+		return true;
+	}
+	public static boolean threeByFourSeamTest() {
+		int[] corrSeamV = {0,1,1,0};
+		int[] corrSeamH = {1,2,1};
+		int[] testSeamH = testObj.findHorizontalSeam();
+		int[] testSeamV = testObj.findVerticalSeam();
 		
-		StdOut.printf("Comparing vertical seams.\n");
-		int [] correctSeam = {0,1,1,0};
-		int []answr = sc1.findVerticalSeam();
-		for(int pixel=0;pixel<answr.length; pixel++) {
-			StdOut.print(answr[pixel]+" / "+correctSeam[pixel]+"\n");
+		for(int num=0; num< testSeamV.length;num++) {
+			if(testSeamV[num] != corrSeamV[num]) {
+				System.out.printf("The vertical seam is wrong.");
+				return false;
+			}
 		}
-		
-		StdOut.printf("Comparing horizontal seams.\n");
-		int [] correcthSeam = {1,2,1};
-		int []hanswr = sc1.findHorizontalSeam();
-		for(int pixel=0;pixel<hanswr.length; pixel++) {
-			StdOut.print(hanswr[pixel]+" / "+correcthSeam[pixel]+"\n");
+		for(int num=0; num< testSeamH.length;num++) {
+			if(testSeamH[num] != corrSeamH[num]) {
+				System.out.printf("The horizontal seam is wrong.");
+				return false;
+			}
 		}
+		System.out.printf("The seams are correct.\n");
+		return true;
+	}
+	
+	public static void pictureDemo(int cols,int rows) {
+		Picture chamPic = new Picture("chameleon.png");
+		chamPic.show();
+		SeamCarver cham = new SeamCarver(chamPic);
+		for (int i = 0; i < rows; i++) {
+            int[] horizontalSeam = cham.findHorizontalSeam();
+            cham.removeHorizontalSeam(horizontalSeam);
+        }
+
+        for (int i = 0; i < cols; i++) {
+            int[] verticalSeam = cham.findVerticalSeam();
+            cham.removeVerticalSeam(verticalSeam);
+        }
+        cham.picture.show();
+        System.out.printf("Please check the pictures new size.\n");
+	}
 		
-		StdOut.printf("Test complete");
+	public static void main(String[] args) {
+		
+		threeByFourEnergytest();
+		threeByFourSeamTest();
+		pictureDemo(100,100);
+		System.out.printf("Test Complete.");
 	}
 
 }

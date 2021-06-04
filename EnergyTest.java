@@ -72,7 +72,15 @@ public class EnergyTest {
             cham.removeVerticalSeam(verticalSeam);
         }
         cham.picture.show();
-        System.out.printf("Please check the pictures new size.\n");
+        int wDiff = chamPic.width()-cham.width();
+        int hDiff = chamPic.height()-cham.height();
+        if (wDiff != cols || hDiff !=rows) {
+        	System.out.printf("There were %d colums deleted and %d rows deleted. There should have been %d columns deleted and %d rows deleted instead.");
+        }
+        else {
+            StdOut.printf("new image size : %d columns by %d rows \nold image size : %d columns by %d rows \nDifferenc in dimensions : %d columns by %d rows\n", cham.width(), cham.height(),chamPic.width(),chamPic.height(),wDiff,hDiff);
+
+        }
 	}
 		
 	public static void main(String[] args) {

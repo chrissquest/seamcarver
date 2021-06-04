@@ -64,7 +64,6 @@ public class SeamCarver {
 	   }
 	   
 	   //Energy for non border pixel
-	   // How to get x delta (Delta)x2(x, y) = Redx(x, y)2 + Greenx(x, y)2 + Bluex(x, y)2
 	   double xDelta = energyHelper(picture.get(x - 1, y), picture.get(x + 1, y));
 	   double yDelta = energyHelper(picture.get(x, y - 1), picture.get(x, y + 1));
 	   
@@ -223,7 +222,7 @@ public class SeamCarver {
     	   visited[col][row] = col + 1;
        }
    }
-   
+  
    private void dijkstraHor(int col, int row, double[] distTo, double[] oldDistTo) 
    {
 	   

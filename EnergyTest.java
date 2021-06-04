@@ -61,6 +61,10 @@ public class EnergyTest {
 	public static void pictureDemo(int cols,int rows) {
 		Picture chamPic = new Picture("chameleon.png");
 		chamPic.show();
+		if (cols >= chamPic.width() || rows >= chamPic.height()) {
+	        StdOut.printf("column value  must be less than %d and a row value must be less than %d",chamPic.width(),chamPic.height());
+
+		}
 		SeamCarver cham = new SeamCarver(chamPic);
 		for (int i = 0; i < rows; i++) {
             int[] horizontalSeam = cham.findHorizontalSeam();
@@ -75,7 +79,7 @@ public class EnergyTest {
         int wDiff = chamPic.width()-cham.width();
         int hDiff = chamPic.height()-cham.height();
         if (wDiff != cols || hDiff !=rows) {
-        	System.out.printf("There were %d colums deleted and %d rows deleted. There should have been %d columns deleted and %d rows deleted instead.");
+        	System.out.printf("There were %d colums deleted and %d rows deleted. There should have been %d columns deleted and %d rows deleted instead.", wDiff,hDiff,cols,rows);
         }
         else {
             StdOut.printf("new image size : %d columns by %d rows \nold image size : %d columns by %d rows \nDifferenc in dimensions : %d columns by %d rows\n", cham.width(), cham.height(),chamPic.width(),chamPic.height(),wDiff,hDiff);

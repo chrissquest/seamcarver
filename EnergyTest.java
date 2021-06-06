@@ -6,6 +6,8 @@ public class EnergyTest {
 	private static double[][]corrEn;
 	private static Picture picture = new Picture("3x4.png");
 	private static SeamCarver testObj = new SeamCarver(picture);
+	private static int colsToRemove = 100;
+	private static int rowsToRemove = 100;
 	
 	public static boolean threeByFourEnergytest() {
 		corrEn = new double[picture.height()][picture.width()];
@@ -82,7 +84,7 @@ public class EnergyTest {
         	System.out.printf("There were %d colums deleted and %d rows deleted. There should have been %d columns deleted and %d rows deleted instead.", wDiff,hDiff,cols,rows);
         }
         else {
-            StdOut.printf("new image size : %d columns by %d rows \nold image size : %d columns by %d rows \nDifferenc in dimensions : %d columns by %d rows\n", cham.width(), cham.height(),chamPic.width(),chamPic.height(),wDiff,hDiff);
+            StdOut.printf("new image size : %d columns by %d rows \nold image size : %d columns by %d rows \nDifference in dimensions : %d columns by %d rows\n", cham.width(), cham.height(),chamPic.width(),chamPic.height(),wDiff,hDiff);
 
         }
 	}
@@ -91,7 +93,7 @@ public class EnergyTest {
 		
 		threeByFourEnergytest();
 		threeByFourSeamTest();
-		pictureDemo(100,100);
+		pictureDemo(colsToRemove,rowsToRemove);
 		System.out.printf("Test Complete.");
 	}
 
